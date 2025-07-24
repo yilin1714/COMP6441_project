@@ -1,0 +1,71 @@
+# === IDE configuration ===
+.idea/                  # PyCharm project settings
+.vscode/                # VSCode settings (if used)
+
+# === Python bytecode and cache ===
+__pycache__/            # Python cache directory
+*.py[cod]               # Compiled Python files
+*.pyo                   # Optimized Python bytecode
+*.pyd                   # Windows DLLs for Python
+
+# === Virtual environments ===
+venv/                   # Virtual environment directory
+.env/                   # Environment folder (sometimes named like this)
+.venv/                  # Alternative virtual environment folder
+ENV/                    # Another possible venv folder name
+env/                    # Lowercase variant
+
+# === Python packaging ===
+*.egg                   # Python Egg files
+*.egg-info/             # Egg metadata directory
+dist/                   # Distribution folder
+build/                  # Build artifacts
+pip-wheel-metadata/     # pip build metadata
+
+# === Environment and secrets ===
+.env                    # Environment variable file
+.env.*                  # Any .env.something files
+*.env                   # Other .env files
+*.secret                # Secret files
+secrets.*               # Custom secrets files
+config.json             # Local config files
+*.token                 # Token files
+*.key                   # Private keys
+
+# === Logs and debugging ===
+*.log                   # Log files
+*.out                   # Output files
+*.tmp                   # Temporary files
+*.bak                   # Backup files
+*.swp                   # Vim swap files
+*.pid                   # PID files
+
+# === Testing / Coverage ===
+.coverage               # Coverage.py coverage data
+.tox/                   # tox testing folder
+.pytest_cache/          # pytest cache
+htmlcov/                # Coverage reports
+.noseids                # Nose test ID file
+
+# === Jupyter Notebooks ===
+.ipynb_checkpoints/     # Jupyter checkpoint files
+
+# === Operating System files ===
+.DS_Store               # macOS metadata file
+Thumbs.db               # Windows thumbnail cache
+ehthumbs.db             # Windows thumbnail cache
+
+# === Other binary or compiled formats ===
+*.so                    # Shared objects (Linux)
+*.dll                   # Windows DLLs
+*.exe                   # Windows executables
+
+# === Custom exclusions ===
+logs/
+tmp/
+.cache/                 # Generic cache folder
+coverage/               # General coverage folder
+
+# === Ignore local data but keep example/template ===
+!config.example.json
+!secrets.example.env
