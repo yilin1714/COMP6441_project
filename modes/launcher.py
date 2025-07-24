@@ -1,4 +1,3 @@
-
 import time
 
 from rich.console import Console
@@ -42,10 +41,9 @@ def launch_protocol_menu(protocol: dict):
         console.print("\n[1] Run Client")
         console.print("[2] Run Attacker")
         console.print("[3] View README")
-        # console.print("[4] Restart Server")
-        console.print("[4] Back")
+        console.print("[0] Back")
 
-        choice = Prompt.ask("\nSelect an action", choices=["1", "2", "3", "4"])
+        choice = Prompt.ask("\nSelect an action", choices=["1", "2", "3", "0"])
 
         if choice == "1":
             run_script(protocol["client"], protocol["path"], label="CLIENT", args=["--port", str(server_port)])
@@ -59,113 +57,5 @@ def launch_protocol_menu(protocol: dict):
             show_readme(protocol["readme"], protocol["path"])
             time.sleep(1.2)
 
-        elif choice == "4":
+        elif choice == "0":
             break
-
-
-# def run_script(script_name: str, script_path: str, label="PROCESS", args=None):
-#     full_script_path = os.path.abspath(os.path.join(script_path, script_name))
-#
-#     if not os.path.exists(full_script_path):
-#         console.print(f"[bold red]❌ {label} script not found: {script_path}[/bold red]")
-#         return
-#
-#     if label == "RESTART":
-#         console.print(f"[bold green]▶ Restarting SERVER...[/bold green]")
-#     else:
-#         console.print(f"[bold green]▶ Launching {label}...[/bold green]")
-#
-#     def find_project_root(path):
-#         current = os.path.abspath(os.path.dirname(path))
-#         while current != os.path.dirname(current):
-#             if os.path.exists(os.path.join(current, "main.py")) or os.path.exists(os.path.join(current, "config.py")):
-#                 return current
-#             current = os.path.dirname(current)
-#         return os.path.dirname(path)
-#
-#     project_root = find_project_root(full_script_path)
-#
-#     try:
-#         command = ["python3", full_script_path]
-#
-#         if args:
-#             command += args
-#
-#         env = os.environ.copy()
-#         env["PYTHONPATH"] = project_root
-#
-#         if label == "RESTART" or label == "SERVER":
-#             subprocess.Popen(command, cwd=project_root, env=env)
-#         else:
-#             subprocess.run(command, cwd=project_root, env=env)
-#
-#     except Exception as e:
-#         console.print(f"[red]Error running {label}: {e}[/red]")
-
-
-# def clean_and_indent_code_blocks(lines):
-#     """
-#     Process a list of text lines to remove markdown code block delimiters and indent code lines.
-#
-#     This function identifies markdown code blocks demarcated by triple backticks (```) and removes
-#     those delimiters. It also indents every line inside a code block by four spaces to improve
-#     readability when rendered in the console.
-#
-#     Parameters:
-#         lines (List[str]): The list of lines read from a markdown file, typically README.md.
-#
-#     Returns:
-#         List[str]: A new list of lines with code block markers removed and code lines indented.
-#     """
-#     in_code_block = False
-#     result = []
-#
-#     for line in lines:
-#         stripped = line.rstrip()
-#
-#         if stripped.startswith("```"):
-#             in_code_block = not in_code_block
-#             continue
-#         elif in_code_block:
-#             result.append("    " + stripped)
-#         else:
-#             result.append(stripped)
-#
-#     return result
-#
-#
-# def show_readme(readme_name: str, readme_path: str):
-#     readme_name = readme_name.lower()
-#     full_readme_path = os.path.join(readme_path, readme_name)
-#
-#     if not os.path.exists(full_readme_path):
-#         console.print(f"[yellow]⚠️ README.md not found in {readme_path}[/yellow]")
-#         return
-#
-#     with open(full_readme_path, "r", encoding="utf-8") as f:
-#         lines = f.readlines()
-#
-#     lines = clean_and_indent_code_blocks(lines)
-#
-#     processed_lines = []
-#     prev_line_was_blank = False
-#
-#     for i, line in enumerate(lines):
-#         stripped = line.strip()
-#         is_header = stripped.startswith("#")
-#
-#         if stripped == "":
-#             next_non_blank = next((l.strip() for l in lines[i + 1:] if l.strip()), None)
-#             if next_non_blank and next_non_blank.startswith("#"):
-#                 processed_lines.append("")
-#                 prev_line_was_blank = True
-#             else:
-#                 continue
-#         else:
-#             if is_header and not prev_line_was_blank and processed_lines:
-#                 processed_lines.append("")
-#             processed_lines.append(line.rstrip())
-#             prev_line_was_blank = False
-#
-#     compact_content = "\n".join(processed_lines)
-#     console.print(Panel(Text(compact_content), title="📘 Protocol README", border_style="green", width=100))

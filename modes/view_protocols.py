@@ -1,5 +1,3 @@
-# modes/view_protocols.py
-
 from rich.console import Console
 from rich.prompt import Prompt
 from rich.table import Table
@@ -24,10 +22,8 @@ def view_protocol_stages():
 
     while True:
 
-        # 分类菜单
         print()
         print_fixed_rule(label="📂 View Protocol Stages by Category", text_style="bold cyan")
-        # console.rule("[bold cyan]📂 View Protocol Stages by Category")
 
         console.print("[1] ❌ Insecure Protocols")
         console.print("[2] 🔧 Improved Protocols")
@@ -41,7 +37,6 @@ def view_protocol_stages():
         if selected_type == "Back":
             break
 
-        # 过滤协议
         if selected_type == "All":
             filtered_protocols = all_protocols
         else:
@@ -53,22 +48,19 @@ def view_protocol_stages():
 
         while True:
 
-            # 展示协议表格
             print()
             print_fixed_rule(label=f"{selected_type} Protocols", text_style="bold cyan")
-            # console.rule(f"[bold green]{selected_type} Protocols")
 
             table = Table(show_header=True, header_style="bold magenta", box=box.SQUARE)
             table.add_column("ID", justify="center", style="cyan", no_wrap=True)
             table.add_column("Name", style="bold white")
             table.add_column("Vulnerability", style="dim")
 
-            index_map = {}  # ID -> protocol 对应关系
+            index_map = {}
             for idx, proto in enumerate(filtered_protocols, 1):
                 table.add_row(str(idx), proto["name"], proto.get("vulnerability", "—"))
                 index_map[str(idx)] = proto
 
-            # if selected_type != "Secure":
             console.print(table)
 
             _choices = list(index_map.keys()) + ["0"]
@@ -81,10 +73,4 @@ def view_protocol_stages():
 
             selected_protocol = index_map[selection]
 
-            # 启动该协议的交互菜单
             launch_protocol_menu(selected_protocol)
-            # else:
-            #
-            #     selected_protocol = filtered_protocols[0]
-            #
-            #     launch_protocol_menu(selected_protocol)

@@ -1,15 +1,3 @@
-# final_secure_protocol/attacker.py
-
-"""
-attacker.py - Final Secure Protocol Attacker (Interactive)
-
-Simulates different types of attacks against the secure server:
-- 1️⃣ No token
-- 2️⃣ Forged token
-- 3️⃣ Replay attack (requires real token + nonce)
-- 4️⃣ Tampered payload
-"""
-
 import argparse
 import json
 import time
@@ -24,7 +12,6 @@ from utils.attacker_runner import run_tcp_attack
 def attack_no_token(host, port):
     print("\n[🚨 Attack 1️⃣] No token provided")
 
-    # 构造 payload（没有 token）
     payload = {
         "action": "transfer",
         "amount": 9999,
@@ -42,7 +29,6 @@ def attack_no_token(host, port):
 def attack_forged_token(host, port):
     print("\n[🚨 Attack 2️⃣] Forged token")
 
-    # 构造一个假的未加密 token 字符串
     forged_token_fields = {
         "username": "alice",
         "exp": 9999999999
@@ -51,7 +37,6 @@ def attack_forged_token(host, port):
     fake_sig = "deadbeef" * 8
     forged_token = f"{token_payload}&sig={fake_sig}"
 
-    # 构造交易请求
     payload = {
         "token": aes_encrypt(forged_token, AES_KEY),
         "action": "transfer",
@@ -93,7 +78,6 @@ def attack_tampered_payload(host, port):
 
     token = input("Paste a real token ➤ ").strip()
 
-    # 正常构造并签名
     payload = {
         "token": token,
         "action": "transfer",
@@ -103,7 +87,6 @@ def attack_tampered_payload(host, port):
     original_str = "&".join(f"{k}={v}" for k, v in payload.items())
     mac = hmac_sign(original_str, HMAC_KEY)
 
-    # 篡改 amount
     payload["amount"] = 999999
     tampered_str = "&".join(f"{k}={v}" for k, v in payload.items())
     full_str = f"{tampered_str}&mac={mac}"
@@ -113,7 +96,6 @@ def attack_tampered_payload(host, port):
     run_tcp_attack(host, port, plain_text=full_str, payload=encrypted, verbose=True)
 
 
-# --- Entry Point ---
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True)
 args = parser.parse_args()
@@ -121,14 +103,13 @@ args = parser.parse_args()
 host = DEFAULT_HOST
 port = args.port
 
-# --- Interactive Menu ---
 while True:
     print("\n[🛡️ Final Secure Protocol - Attacker Menu]")
     print("1️⃣  No token provided")
     print("2️⃣  Forged token")
     print("3️⃣  Replay attack (manual token & nonce)")
     print("4️⃣  Tampered payload after signing")
-    print("5️⃣  Exit")
+    print("0️⃣  Exit")
 
     choice = input("\nEnter attack number to launch ➤ ").strip()
 
@@ -148,7 +129,7 @@ while True:
         attack_tampered_payload(host, port)
         time.sleep(0.5)
 
-    elif choice == "5":
+    elif choice == "0":
         print("👋 Exiting attacker.")
         break
     else:

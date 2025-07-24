@@ -78,7 +78,7 @@ while True:
     print("1️⃣  Login only")
     print("2️⃣  Send secure action (provide token manually)")
     print("3️⃣  Login + Send secure action")
-    print("4️⃣  Exit")
+    print("0️⃣  Exit")
 
     choice = input("\nEnter choice ➤ ").strip()
 
@@ -96,9 +96,9 @@ while True:
         send_secure_action(token_cache, action, amount, server_host, server_port)
         time.sleep(0.5)
 
-    elif choice == "4":
+    elif choice == "0":
         print("👋 Exiting client.")
         break
 
     else:
-        print("❌ Invalid input. Please choose 1, 2, 3, or 4.")
+        print("❌ Invalid input. Please choose 1, 2, 3, or 0.")

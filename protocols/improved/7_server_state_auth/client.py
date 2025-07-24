@@ -1,14 +1,3 @@
-"""
-client.py - Stage 7: Plaintext + Server-Side Authenticated Session
-
-This client:
-1. Logs in using username and password to obtain a session_id
-2. Sends a follow-up transaction using that session_id
-
-Usage:
-    python client.py --port 9000 --username alice --password 123456
-"""
-
 import argparse
 import time
 
@@ -17,7 +6,6 @@ from utils.client_runner import run_tcp_client
 
 
 def request_session_id(host, port, username, password):
-    """Step 1: Request session ID via login"""
     login_msg = f"action=init&username={username}&password={password}"
     print("\n[Step 1] Logging in...")
 
@@ -39,7 +27,6 @@ def request_session_id(host, port, username, password):
 
 
 def send_transaction(host, port, session_id):
-    """Step 2: Send transaction with session_id"""
     tx_msg = f"session_id={session_id}&action=transfer&amount=1000"
     print("[Step 2] Sending transaction...")
 
@@ -53,7 +40,6 @@ def send_transaction(host, port, session_id):
     print()
 
 
-# --- CLI Argument Setup ---
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True, help="Target server port")
 parser.add_argument("--host", type=str, default=DEFAULT_HOST, help="Server host")
@@ -62,7 +48,6 @@ args = parser.parse_args()
 username = "alice"
 password = "123456"
 
-# --- Execute Login + Transaction ---
 session_id = request_session_id(args.host, args.port, username, password)
 time.sleep(1)
 

@@ -1,18 +1,3 @@
-"""
-attacker.py - Attack Demo for AES Without Integrity or Authentication
-
-This script simulates several invalid client requests to test how a server that
-uses AES encryption (without MAC or authentication) responds to malformed input.
-
-Attack Scenarios:
-1. Sending plaintext instead of ciphertext
-2. Sending random hex-encoded garbage
-3. Sending empty or invalid hex
-
-Usage:
-    python attacker.py --port 9000
-"""
-
 import argparse
 import random
 import time
@@ -27,20 +12,16 @@ args = parser.parse_args()
 server_host = DEFAULT_HOST
 server_port = args.port
 
-# Attack 1: Send raw plaintext
 plaintext_1 = "username=attacker&action=drain&amount=999999"
-payload_1 = plaintext_1  # not encrypted at all
+payload_1 = plaintext_1
 
-# Attack 2: Send random hex garbage
 random_bytes = bytes(random.choices(range(256), k=32))
 plaintext_2 = "[random hex garbage]"
 payload_2 = random_bytes.hex()
 
-# Attack 3: Send invalid/empty hex string
 plaintext_3 = "[empty message]"
-payload_3 = "zzzz"  # invalid hex
+payload_3 = "zzzz"
 
-# Execute all attacks
 run_tcp_attack(
     host=server_host,
     port=server_port,

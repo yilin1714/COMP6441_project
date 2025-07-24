@@ -1,4 +1,4 @@
-# main.py - Secure Protocol Lab Entry Point
+
 from rich.markdown import Markdown
 from rich.console import Console
 from rich.panel import Panel

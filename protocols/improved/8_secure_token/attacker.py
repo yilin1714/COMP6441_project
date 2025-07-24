@@ -1,14 +1,3 @@
-"""
-attacker.py - Stage 8: Token Forgery & Missing Token Simulation
-
-Simulates two attacks:
-1. Sending a request with no token
-2. Sending a request with a forged/fake token
-
-Usage:
-    python attacker.py --port 9000
-"""
-
 import argparse
 import time
 
@@ -41,13 +30,11 @@ def attack_forged_token(host, port):
     )
 
 
-# --- CLI argument parsing ---
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True)
 parser.add_argument("--host", type=str, default=DEFAULT_HOST)
 args = parser.parse_args()
 
-# --- Run attacks ---
 attack_missing_token(args.host, args.port)
 time.sleep(1)
 attack_forged_token(args.host, args.port)

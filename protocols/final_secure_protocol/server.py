@@ -1,19 +1,3 @@
-# final_secure_protocol/server.py
-
-"""
-server.py - Final Secure Protocol Server
-
-Supports two types of AES-encrypted client requests:
-- Login: {"action": "login", "username": ..., "password": ..., "nonce": ...}
-- Transaction: {"data": ..., "mac": ...} where `data` contains token, action, amount, nonce
-
-Security Features:
-- ✅ AES-CBC encryption
-- ✅ HMAC-SHA256 integrity check
-- ✅ Session token (with signature + expiry)
-- ✅ Nonce replay protection
-"""
-
 import argparse
 import json
 
@@ -33,16 +17,10 @@ from utils.server_runner import run_tcp_server
 
 
 def handle_request(encrypted_data: str) -> str:
-    """
-    Handle incoming AES-encrypted request from client.
-    Distinguishes login and transaction based on 'action' field.
-    """
     try:
-        # Step 1: AES decrypt incoming message
         decrypted = aes_decrypt(encrypted_data, AES_KEY)
         params = parse_kv_string(decrypted)
 
-        # --- Case 1: Login request ---
         if params.get("action") == "login":
             username = params.get("username")
             password_hash = params.get("password")
@@ -62,7 +40,6 @@ def handle_request(encrypted_data: str) -> str:
             token = generate_token(username)
             return token
 
-        # --- Case 2: Secure transaction request ---
         elif params.get("action") == "transfer":
             payload_str, received_mac = decrypted.rsplit("&", 1)
 
@@ -101,7 +78,6 @@ def handle_request(encrypted_data: str) -> str:
         return f"❌ Server error: {str(e)}"
 
 
-# --- Command-line launch ---
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True, help="Port number the server will bind to")
 parser.add_argument("--notify-port", type=int, required=False,

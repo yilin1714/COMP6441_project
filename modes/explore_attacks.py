@@ -24,7 +24,6 @@ def explore_by_attack():
 
         print(" [0] ← Back to Main Menu")
 
-        # Ask for attack selection
         max_choice = len(attack_keys)
         choices = [str(i) for i in range(1, max_choice + 1)] + ["0"]
 
@@ -43,7 +42,6 @@ def explore_by_attack():
 
         show_readme(readme_name=attack_details["readme_name"], readme_path=attack_details["readme_path"])
 
-        # Confirm execution
         run = input("Do you want to run this attack? (y/n): ").strip().lower()
 
         if run == "y":

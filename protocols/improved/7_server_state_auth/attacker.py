@@ -1,16 +1,3 @@
-"""
-attacker.py - Stage 7: Session Hijack & Unauthenticated Access Simulation
-
-This script simulates two types of attacks:
-1. Omit session_id entirely
-2. Send a forged/fake session_id
-
-The server should reject both if session validation is enforced.
-
-Usage:
-    python attacker.py --port 9000
-"""
-
 import argparse
 import time
 
@@ -42,13 +29,11 @@ def attack_fake_session_id(host, port):
     )
 
 
-# --- CLI Setup ---
 parser = argparse.ArgumentParser()
 parser.add_argument("--port", type=int, required=True, help="Target server port")
 parser.add_argument("--host", type=str, default=DEFAULT_HOST, help="Target host")
 args = parser.parse_args()
 
-# --- Launch both attacks ---
 attack_no_session_id(args.host, args.port)
 time.sleep(1)
 attack_fake_session_id(args.host, args.port)
